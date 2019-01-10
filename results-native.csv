@@ -1,4 +1,4 @@
 ,posts,comments,JOIN,JOIN + array_agg,JOIN + to_json(array_agg),JOIN + to_jsonb(array_agg),SUBQUERY + array_agg,SUBQUERY + to_json(array_agg),SUBQUERY + to_jsonb(array_agg)
 raw,45.5,4457.8,8509.2,2956.3,4305.4,5015.8,3030.1,3751.2,4828.2
-json,33.3,4636.8,7137.4,4015.4,4278.5,,4125.5,3765.6,,
+json,33.3,4636.8,7137.4,4015.4,4278.5,,4125.5,3765.6,
 jsonb,40.2,5214.7,8165.3,5091.2,,5824.2,4513.3,,6047.6
