@@ -1,0 +1,11 @@
+{
+  "name": "node-pg-json-benchmark",
+  "version": "0.1.0",
+  "description": "Benchmark of JSON queries for PostgreSQL",
+  "dependencies": {
+    "@tozd/random-id": "~1.0.0",
+    "pg": "~7.7.1",
+    "pg-native": "~3.0.0",
+    "stats-lite": "~2.2.0"
+  }
+}
