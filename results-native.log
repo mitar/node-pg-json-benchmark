@@ -1,46 +1,47 @@
-let Client;
-if (process.argv[2] === 'native') {
-  console.log("Using native client.");
-  Client = require('pg').native.Client;
-}
-else {
-  console.log("Using JS client.");
-  Client = require('pg').Client;
-}
+Using native client.
 
-const stats = require('stats-lite');
-
-const CONNECTION_CONFIG = {
-  user: 'postgres',
-  database: 'postgres',
-  password: 'pass',
-};
-
-const client = new Client(CONNECTION_CONFIG);
-
-(async () => {
-  await client.connect();
-
-  const queries = [
-    `
       SELECT * FROM posts
-    `,
-    `
+    
+Mean: 45.5
+Stddev: 8.077747210701755
+
+---
+
       SELECT to_json(posts) FROM posts
-    `,
-    `
+    
+Mean: 33.3
+Stddev: 2.72213151776324
+
+---
+
       SELECT to_jsonb(posts) FROM posts
-    `,
-    `
+    
+Mean: 40.2
+Stddev: 2.6381811916545836
+
+---
+
       SELECT * FROM comments
-    `,
-    `
+    
+Mean: 4457.8
+Stddev: 161.44336468247928
+
+---
+
       SELECT to_json(comments) FROM comments
-    `,
-    `
+    
+Mean: 4636.8
+Stddev: 138.3631453819983
+
+---
+
       SELECT to_jsonb(comments) FROM comments
-    `,
-    `
+    
+Mean: 5214.7
+Stddev: 189.38217973188503
+
+---
+
       SELECT
         posts."_id" AS "postId",
         posts."createdAt" AS "postCreatedAt",
@@ -49,8 +50,12 @@ const client = new Client(CONNECTION_CONFIG);
         comments."createdAt" AS "commentCreatedAt",
         comments."body" AS "commentBody"
       FROM posts LEFT JOIN comments ON (posts."_id"=comments."postId")
-    `,
-    `
+    
+Mean: 8509.2
+Stddev: 386.8433274595802
+
+---
+
       SELECT to_json(t) FROM
       (
         SELECT
@@ -62,8 +67,12 @@ const client = new Client(CONNECTION_CONFIG);
           comments."body" AS "commentBody"
         FROM posts LEFT JOIN comments ON (posts."_id"=comments."postId")
       ) AS t
-    `,
-    `
+    
+Mean: 7137.4
+Stddev: 314.60712007200345
+
+---
+
       SELECT to_jsonb(t) FROM
       (
         SELECT
@@ -75,15 +84,23 @@ const client = new Client(CONNECTION_CONFIG);
           comments."body" AS "commentBody"
         FROM posts LEFT JOIN comments ON (posts."_id"=comments."postId")
       ) AS t
-    `,
-    `
+    
+Mean: 8165.3
+Stddev: 397.79443183634436
+
+---
+
       SELECT
         posts.*,
         array_agg(comments) AS "comments"
       FROM posts LEFT JOIN comments ON (posts."_id"=comments."postId")
       GROUP BY posts."_id"
-    `,
-    `
+    
+Mean: 2956.3
+Stddev: 332.8765687157929
+
+---
+
       SELECT to_json(t) FROM
       (
         SELECT
@@ -92,8 +109,12 @@ const client = new Client(CONNECTION_CONFIG);
         FROM posts LEFT JOIN comments ON (posts."_id"=comments."postId")
         GROUP BY posts."_id"
       ) AS t
-    `,
-    `
+    
+Mean: 4015.4
+Stddev: 339.11714790024996
+
+---
+
       SELECT to_jsonb(t) FROM
       (
         SELECT
@@ -102,15 +123,23 @@ const client = new Client(CONNECTION_CONFIG);
         FROM posts LEFT JOIN comments ON (posts."_id"=comments."postId")
         GROUP BY posts."_id"
       ) AS t
-    `,
-    `
+    
+Mean: 5091.2
+Stddev: 306.56803486338885
+
+---
+
       SELECT
         posts.*,
         to_json(array_agg(comments)) AS "comments"
       FROM posts LEFT JOIN comments ON (posts."_id"=comments."postId")
       GROUP BY posts."_id"
-    `,
-    `
+    
+Mean: 4305.4
+Stddev: 216.91712703242223
+
+---
+
       SELECT to_json(t) FROM
       (
         SELECT
@@ -119,15 +148,23 @@ const client = new Client(CONNECTION_CONFIG);
         FROM posts LEFT JOIN comments ON (posts."_id"=comments."postId")
         GROUP BY posts."_id"
       ) AS t
-    `,
-    `
+    
+Mean: 4278.5
+Stddev: 188.84980804861837
+
+---
+
       SELECT
         posts.*,
         to_jsonb(array_agg(comments)) AS "comments"
       FROM posts LEFT JOIN comments ON (posts."_id"=comments."postId")
       GROUP BY posts."_id"
-    `,
-    `
+    
+Mean: 5015.8
+Stddev: 247.91200051631225
+
+---
+
       SELECT to_jsonb(t) FROM
       (
         SELECT
@@ -136,8 +173,12 @@ const client = new Client(CONNECTION_CONFIG);
         FROM posts LEFT JOIN comments ON (posts."_id"=comments."postId")
         GROUP BY posts."_id"
       ) AS t
-    `,
-    `
+    
+Mean: 5824.2
+Stddev: 351.4142285110266
+
+---
+
       SELECT
         posts.*,
         (
@@ -146,8 +187,12 @@ const client = new Client(CONNECTION_CONFIG);
           FROM comments WHERE posts."_id"=comments."postId"
         ) AS "comments"
       FROM posts
-    `,
-    `
+    
+Mean: 3030.1
+Stddev: 131.8199150356273
+
+---
+
       SELECT to_json(t) FROM
       (
         SELECT
@@ -159,8 +204,12 @@ const client = new Client(CONNECTION_CONFIG);
           ) AS "comments"
         FROM posts      
       ) AS t
-    `,
-    `
+    
+Mean: 4125.5
+Stddev: 285.2568141166833
+
+---
+
       SELECT to_jsonb(t) FROM
       (
         SELECT
@@ -172,8 +221,12 @@ const client = new Client(CONNECTION_CONFIG);
           ) AS "comments"
         FROM posts      
       ) AS t
-    `,
-    `
+    
+Mean: 4513.3
+Stddev: 216.563177848867
+
+---
+
       SELECT
         posts.*,
         (
@@ -182,8 +235,12 @@ const client = new Client(CONNECTION_CONFIG);
           FROM comments WHERE posts."_id"=comments."postId"
         ) AS "comments"
       FROM posts
-    `,
-    `
+    
+Mean: 3751.2
+Stddev: 235.37111122650546
+
+---
+
       SELECT to_json(t) FROM
       (
         SELECT
@@ -195,8 +252,12 @@ const client = new Client(CONNECTION_CONFIG);
           ) AS "comments"
         FROM posts      
       ) AS t
-    `,
-    `
+    
+Mean: 3765.6
+Stddev: 234.83619823187396
+
+---
+
       SELECT
         posts.*,
         (
@@ -205,8 +266,12 @@ const client = new Client(CONNECTION_CONFIG);
           FROM comments WHERE posts."_id"=comments."postId"
         ) AS "comments"
       FROM posts
-    `,
-    `
+    
+Mean: 4828.2
+Stddev: 422.3472031397864
+
+---
+
       SELECT to_jsonb(t) FROM
       (
         SELECT
@@ -218,22 +283,8 @@ const client = new Client(CONNECTION_CONFIG);
           ) AS "comments"
         FROM posts
       ) AS t
-    `,
-  ];
+    
+Mean: 6047.6
+Stddev: 244.19017179239623
 
-  for (const query of queries) {
-    console.log(query);
-    const measurements = [];
-    for (let i = 0; i < 10; i++) {
-      const start = Date.now();
-      await client.query(query);
-      const end = Date.now();
-      measurements.push(end - start);
-    }
-    console.log("Mean: %s", stats.mean(measurements));
-    console.log("Stddev: %s", stats.stdev(measurements));
-    console.log("\n---");
-  }
-
-  await client.end();
-})();
+---
