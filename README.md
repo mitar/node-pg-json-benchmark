@@ -10,5 +10,7 @@ $ node benchmark.js native
 
 ## Results
 
-See [`results-js.log`](./results-js.log) for JS driver
-and [`results-native.log`](./results-native.log) for native driver.
+Evaluated using node v11.6.0 on Linux and [PostgreSQL 11.1 Docker image](https://hub.docker.com/_/postgres/),
+`postgres:11.1`, with default configuration.
+
+See [`results-js.log`](./results-js.log) for JS driver and [`results-native.log`](./results-native.log) for native driver.
