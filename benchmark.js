@@ -194,7 +194,7 @@ const client = new Client(CONNECTION_CONFIG);
             FROM comments WHERE posts."_id"=comments."postId"
           ) AS "comments"
         FROM posts      
-      )
+      ) AS t
     `,
     `
       SELECT
