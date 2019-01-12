@@ -27,12 +27,12 @@ const client = new Client(CONNECTION_CONFIG);
     DROP TABLE IF EXISTS posts CASCADE;
     CREATE TABLE posts (
       "_id" CHAR(17) PRIMARY KEY DEFAULT random_id(),
-      "createdAt" TIMESTAMP NOT NULL DEFAULT NOW(),
+      "createdAt" TIMESTAMPZ NOT NULL DEFAULT NOW(),
       "body" JSONB NOT NULL DEFAULT '{}'::JSONB
     );
     CREATE TABLE comments (
       "_id" CHAR(17) PRIMARY KEY DEFAULT random_id(),
-      "createdAt" TIMESTAMP NOT NULL DEFAULT NOW(),
+      "createdAt" TIMESTAMPZ NOT NULL DEFAULT NOW(),
       "postId" CHAR(17) NOT NULL REFERENCES posts("_id"),
       "body" JSONB NOT NULL DEFAULT '{}'::JSONB
     );
